@@ -1,7 +1,19 @@
 import * as ReactDOM from 'react-dom';
+import CssBaseline from '@mui/material/CssBaseline';
+import {
+  createHashRouter,
+  RouterProvider,
+} from "react-router-dom";
+
+const router = createHashRouter([
+  {
+    path: "/",
+    element: <div>Hello world!</div>,
+  },
+]);
 
 function render() {
-  ReactDOM.render(<h2>Hello from React!</h2>, document.body);
+  ReactDOM.render(<><CssBaseline /><RouterProvider router={router} /></>, document.body);
 }
 
 render();
