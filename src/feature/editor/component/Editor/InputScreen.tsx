@@ -8,7 +8,9 @@ export function InputScreen() {
 
     return <Stack spacing={2}>
         <Form {...{ sentences, setSentences }} />
-        {[...Object.entries(sentences)].sort(([i1], [i2]) => Number(i2) - Number(i1)).map(([i, v]) => <Sentence key={`sentence-${i}`}>{[i, v]}</Sentence>)}
+        {[...Object.entries(sentences)]
+            .sort(([i1], [i2]) => Number(i2) - Number(i1))
+            .map(([i, v]) => <Sentence key={`sentence-${i}`}>{[i, v]}</Sentence>)}
     </Stack>
 }
 

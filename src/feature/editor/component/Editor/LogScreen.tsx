@@ -13,11 +13,26 @@ export function LogScreen() {
     const [log, setLog] = useState<LogType>({})
     const [, setDirPath] = useState<string>('')
     useEffect(() => {
+        let intervalId: NodeJS.Timeout | null
         fileOpen().then((file: OpenFileResultType) => {
             if (file.canceled) return
             setDirPath(file.dirPath)
             setLog(parse(file.data))
+            return `${file.dirPath}/log.yaml`
+        }).then((filePath: string) => {
+            intervalId = setInterval(() => {
+                fileOpen(filePath).then((file: OpenFileResultType) => {
+                    if (file.canceled) return
+                    setDirPath(file.dirPath)
+                    setLog(parse(file.data))
+                })
+            }, 3000);
         })
+
+        return () => {
+            if (intervalId)
+                clearInterval(intervalId);
+        };
     }, [])
     return <Stack spacing={2}>
         {[...Object.entries(log)]
