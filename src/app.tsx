@@ -1,19 +1,43 @@
-import * as ReactDOM from 'react-dom';
+import { createRoot } from 'react-dom/client';
 import CssBaseline from '@mui/material/CssBaseline';
 import {
-  createHashRouter,
+  createMemoryRouter,
   RouterProvider,
 } from "react-router-dom";
+import { Editor } from './feature/editor/component/Editor';
+import { createTheme } from '@mui/material';
+import { ThemeProvider } from '@emotion/react';
+import { Viewer } from './feature/viewer/Viewer';
 
-const router = createHashRouter([
+const router = createMemoryRouter([
   {
     path: "/",
-    element: <div>Hello world!</div>,
+    element: <Editor />,
+  },
+  {
+    path: "/viewer",
+    element: <Viewer />,
   },
 ]);
 
-function render() {
-  ReactDOM.render(<><CssBaseline /><RouterProvider router={router} /></>, document.body);
-}
+const theme = createTheme({
+  palette: {
+    background: {
+      paper: '#eff1f2',
+      default: '#fbfcfd',
+    },
+    primary: {
+      main: '#006879'
+    },
+    secondary: {
+      main: '#4b6268'
+    },
+  },
+});
 
-render();
+createRoot(document.getElementById('root')).render(<>
+  <ThemeProvider theme={theme}>
+    <CssBaseline />
+    <RouterProvider router={router} />
+  </ThemeProvider >
+</>);
