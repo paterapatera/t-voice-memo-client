@@ -13,7 +13,9 @@ export function Layout({ children }: { children: ReactNode }) {
     setValue(newValue);
   };
   return <Box sx={{ pb: 7 }}>
-    {children}
+    <Box sx={{ p: 1 }}>
+      {children}
+    </Box>
     <Paper sx={{ position: 'fixed', bottom: 0, left: 0, right: 0 }} elevation={3}>
       <BottomNavigation
         value={value}

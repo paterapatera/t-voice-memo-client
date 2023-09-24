@@ -20,6 +20,7 @@ export function LogScreen() {
             setLog(parse(file.data))
             return `${file.dirPath}/log.yaml`
         }).then((filePath: string) => {
+            if (filePath == null) return
             intervalId = setInterval(() => {
                 fileOpen(filePath).then((file: OpenFileResultType) => {
                     if (file.canceled) return
