@@ -4,6 +4,7 @@ import {
   createMemoryRouter,
   RouterProvider,
 } from "react-router-dom";
+import { RecoilRoot } from "recoil";
 import { Editor } from './feature/editor/component/Editor';
 import { createTheme } from '@mui/material';
 import { ThemeProvider } from '@emotion/react';
@@ -38,6 +39,8 @@ const theme = createTheme({
 createRoot(document.getElementById('root')).render(<>
   <ThemeProvider theme={theme}>
     <CssBaseline />
-    <RouterProvider router={router} />
+    <RecoilRoot>
+      <RouterProvider router={router} />
+    </RecoilRoot>
   </ThemeProvider >
 </>);

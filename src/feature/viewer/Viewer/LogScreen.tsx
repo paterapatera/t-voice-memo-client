@@ -1,30 +1,50 @@
-import { forwardRef } from "react";
+import { useRef } from "react";
+import { Stack } from "@mui/material";
+import { space } from "@/code/theme";
 import { Message } from "./LogScreen/Message";
 import { Audio } from "./LogScreen/Audio";
-import { Stack } from "@mui/material";
-import { LogType } from "../Viewer";
 
-export const LogScreen = forwardRef<{ [key: string]: number }, {
-    log: LogType,
-    dirPath: string,
-    clickTime: string,
-}>(({ log, dirPath, clickTime }, ref) => {
-    return <Stack spacing={2}>
-        {[...Object.entries(log)].sort(([i1], [i2]) => Number(i1) - Number(i2)).map(([time, { type, text }]) => {
-            if (type === 'audio') {
-                return <Audio {...{ time, path: `${dirPath}/${text}` }} key={`audio-${time}`} />
-            } else {
-                const isSelected = clickTime === time
-                return <Message ref={(i) => {
-                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                    // @ts-ignore
-                    if (!i || !ref.current) return
-                    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-                    // @ts-ignore
-                    ref.current[time] = i.getBoundingClientRect().top
-                }} {...{ time, message: text, isSelected }} key={`message-${time}`} />
-            }
-        })}
+import { useRecoilValue } from "recoil";
+import { windowSizeAtom } from "@/AppAtom";
+import {
+    Time,
+    dirPathAtom,
+    logMapAtom,
+    selectedTimeAtom
+} from "../ViewerAtom";
+
+export const LogScreen = () => {
+    const logMap = useRecoilValue(logMapAtom);
+    const dirPath = useRecoilValue(dirPathAtom);
+    const selectedTime = useRecoilValue(selectedTimeAtom);
+    const windowSize = useRecoilValue(windowSizeAtom)
+    const stackRef = useRef<HTMLDivElement>(null)
+
+    const scrollToIfSelected = (isSelected: boolean, messageElement: HTMLDivElement) => {
+        if (!stackRef.current || !messageElement || !isSelected) return
+        stackRef.current.scrollBy({ top: messageElement.getBoundingClientRect().top - space(2), behavior: 'smooth' })
+    }
+
+    const scrollStyle = {
+        style: { height: windowSize.height - space(9) },
+        sx: { overflow: 'auto' }
+    }
+
+    const isSelected = (time: Time) => selectedTime === time
+
+    return <Stack ref={stackRef} p={1} spacing={2} {...scrollStyle}>
+        {Object.entries(logMap)
+            .sort(([i1], [i2]) => Number(i1) - Number(i2))
+            .map(([time, { type, text }]) => {
+                if (type === 'audio' && dirPath) {
+                    return <Audio {...{ time, path: `${dirPath}/${text}` }} key={`audio-${time}`} />
+                } else {
+                    return <Message
+                        ref={(r) => scrollToIfSelected(isSelected(time), r)}
+                        {...{ time, message: text, isSelected: isSelected(time) }}
+                        key={`message-${time}`}
+                    />
+                }
+            })}
     </Stack>
-})
-
+}

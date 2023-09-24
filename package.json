@@ -30,6 +30,7 @@
     "css-loader": "^6.0.0",
     "electron": "26.2.2",
     "eslint": "^8.0.1",
+    "eslint-import-resolver-typescript": "^3.6.1",
     "eslint-plugin-import": "^2.25.0",
     "fork-ts-checker-webpack-plugin": "^7.2.13",
     "node-loader": "^2.0.0",
@@ -51,6 +52,7 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.46.2",
     "react-router-dom": "^6.16.0",
+    "recoil": "^0.7.7",
     "yaml": "^2.3.2"
   }
 }
