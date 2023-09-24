@@ -12,11 +12,11 @@ import { Viewer } from './feature/viewer/Viewer';
 const router = createMemoryRouter([
   {
     path: "/",
-    element: <Viewer />,
+    element: <Editor />,
   },
   {
     path: "/viewer",
-    element: <Editor />,
+    element: <Viewer />,
   },
 ]);
 

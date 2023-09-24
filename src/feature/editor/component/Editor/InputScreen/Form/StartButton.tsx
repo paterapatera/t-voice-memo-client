@@ -1,10 +1,13 @@
 import Button from '@mui/material/Button';
-import dayjs from 'dayjs';
+import { last } from '../../../../../../code/list';
+import { LogType } from '../../../Editor';
 
-const getNow = () => dayjs().format('HHmmss')
-export function StartButton({ setTime }: { setTime: (time: string) => void }) {
+export function StartButton({ setTime, logs }: {
+    setTime: (time: string) => void,
+    logs: LogType,
+}) {
     return <Button
         variant="contained"
-        onClick={() => setTime(getNow())}
+        onClick={() => setTime(last(Object.entries(logs))[0])}
     >START</Button>
 }

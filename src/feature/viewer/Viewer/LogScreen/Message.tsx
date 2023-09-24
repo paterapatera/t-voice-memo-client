@@ -1,5 +1,6 @@
 import { Container } from "@mui/material";
+import { forwardRef } from "react";
 
-export function Message({ time, message, isSelected }: { time: string, message: string, isSelected: boolean }) {
-    return <Container sx={{ color: isSelected ? '#fff' : null, backgroundColor: isSelected ? 'text.secondary' : null }}>{`(${time}) ${message}`}</Container>
-}
+export const Message = forwardRef<HTMLDivElement, { time: string, message: string, isSelected: boolean }>(({ time, message, isSelected }, ref) => {
+    return <Container ref={ref} sx={{ color: isSelected ? '#fff' : null, backgroundColor: isSelected ? 'text.secondary' : null }}>{`(${time}) ${message}`}</Container>
+})

@@ -1,10 +1,9 @@
 import Grid from '@mui/material/Unstable_Grid2'; // Grid version 2
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { parse } from 'yaml';
 import { MarkdownScreen } from "./Viewer/MarkdownScreen";
 import { Layout } from "../..//Layout";
 import { LogScreen } from "./Viewer/LogScreen";
-import { Box } from '@mui/material';
 
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -19,16 +18,20 @@ export function Viewer() {
     const [log, setLog] = useState<LogType>({})
     const [dirPath, setDirPath] = useState<string>('')
     const [clickTime, setClickTime] = useState<string>("")
+
+    const scrollRef = useRef<HTMLDivElement>()
+    const logRef = useRef<{ [key: string]: number }>({})
+    const scrollTo = useCallback((time: string) => {
+        scrollRef.current.scrollTop = logRef.current[time]
+    }, [scrollRef])
+
     useEffect(() => {
         const onResize = () => {
             setWindowSize({ width: window.innerWidth, height: window.innerHeight });
         }
         window.addEventListener('resize', onResize);
 
-        // debug
-        // const debugFile = 'C:/Users/pater4/Desktop/memo.yaml'
-        const debugFile: string | null = null
-        fileOpen(debugFile).then((file: OpenFileResultType) => {
+        fileOpen().then((file: OpenFileResultType) => {
             if (file.canceled) return
             setDirPath(file.dirPath)
             setMarkdown(parse(file.data))
@@ -40,13 +43,21 @@ export function Viewer() {
             })
         })
 
-        return () => window.removeEventListener('resize', onResize);
+        return () => {
+            window.removeEventListener('resize', onResize);
+        };
     }, [])
+
+    useEffect(() => {
+        scrollTo(clickTime)
+    })
 
     return <Layout>
         <Grid container spacing={2}>
             <Grid xs={6} style={{ height: windowSize.height - 57 }} sx={{ overflow: 'auto' }}><MarkdownScreen markdown={markdown} setClickTime={setClickTime} /></Grid>
-            <Grid xs={6} style={{ height: windowSize.height - 57 }} sx={{ overflow: 'auto' }}><LogScreen log={log} dirPath={dirPath} clickTime={clickTime} /></Grid>
+            <Grid ref={scrollRef} xs={6} style={{ height: windowSize.height - 57 }} sx={{ overflow: 'auto' }}>
+                <LogScreen ref={logRef} log={log} dirPath={dirPath} clickTime={clickTime} />
+            </Grid>
         </Grid>
     </Layout>
 }
