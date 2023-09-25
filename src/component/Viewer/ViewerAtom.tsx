@@ -1,6 +1,6 @@
 import { atom, selector } from 'recoil'
 import { parse } from 'yaml';
-import { fileOpen } from '@/code/file';
+import { fileAtom } from '@/Context';
 
 export const memoMapAtom = atom<MemoMap>({
     key: 'Viewer/MemoMap',
@@ -24,8 +24,9 @@ export const selectedTimeAtom = atom<string | null>({
 
 export const memoFileLoader = selector({
     key: 'Viewer/MemoFileLoader',
-    get: async (): Promise<{ memoMap: MemoMap, dirPath: DirPath }> => {
-        const { canceled, data, dirPath }: OpenFileResult = await fileOpen()
+    get: async ({ get }): Promise<{ memoMap: MemoMap, dirPath: DirPath }> => {
+        const file = get(fileAtom)
+        const { canceled, data, dirPath }: OpenFileResult = await file.open()
 
         if (canceled) return { memoMap: {}, dirPath: null }
 
@@ -37,11 +38,12 @@ export const memoFileLoader = selector({
 export const logFileLoader = selector({
     key: 'Viewer/LogFileLoader',
     get: async ({ get }): Promise<{ logMap: LogMap }> => {
+        const file = get(fileAtom)
         const { dirPath } = get(memoFileLoader)
 
         if (dirPath == null) return { logMap: {} }
 
-        const { data }: OpenFileResult = await fileOpen(`${dirPath}/log.yaml`)
+        const { data }: OpenFileResult = await file.open(`${dirPath}/log.yaml`)
 
         const logMap = parse(data)
         return { logMap }

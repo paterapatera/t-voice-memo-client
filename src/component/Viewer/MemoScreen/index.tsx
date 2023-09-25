@@ -1,4 +1,4 @@
-import { space } from '@/code/theme';
+import { space } from '@/util/theme';
 import Stack from '@mui/material/Stack';
 import { Sentence } from "./Sentence";
 

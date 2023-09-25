@@ -1,6 +1,6 @@
 import { atom, selector } from 'recoil'
 import { parse } from 'yaml';
-import { fileOpen } from '@/code/file';
+import { fileAtom } from '@/Context';
 
 
 export const logMapAtom = atom<LogMap>({
@@ -16,9 +16,10 @@ export const dirPathAtom = atom<string | null>({
 export const logFileLoader = selector({
     key: 'Editor/LogFileLoader',
     get: async ({ get }): Promise<{ canceled: Canceled, logMap: LogMap, dirPath: DirPath }> => {
+        const file = get(fileAtom)
         const dirPath = get(dirPathAtom)
         const filePath = dirPath ? `${dirPath}/log.yaml` : null
-        const { canceled, data, dirPath: newDirPath }: OpenFileResult = await fileOpen(filePath)
+        const { canceled, data, dirPath: newDirPath }: OpenFileResult = await file.open(filePath)
 
         if (canceled) return { canceled, logMap: {}, dirPath: null }
 

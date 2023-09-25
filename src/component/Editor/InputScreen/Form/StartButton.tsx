@@ -1,5 +1,5 @@
 import Button from '@mui/material/Button';
-import { last } from '@/code/list';
+import { last } from '@/util/list';
 
 import { useRecoilValue } from 'recoil';
 import { logMapAtom } from '../../EditorAtom';

@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { Stack } from "@mui/material";
-import { space } from "@/code/theme";
+import { space } from "@/util/theme";
 import { Message } from "./Message";
 import { Audio } from "./Audio";
 
