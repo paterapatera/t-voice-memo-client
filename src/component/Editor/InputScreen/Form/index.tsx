@@ -2,14 +2,12 @@ import { Dispatch, SetStateAction } from 'react';
 import { stringify } from 'yaml';
 import Stack from '@mui/material/Stack';
 import { useForm } from 'react-hook-form';
+import { fileSave } from '@/code/file';
 import { EndButton } from "./EndButton";
 import { InputField } from "./InputField";
 import { TimeField } from "./TimeField";
 import { StartButton } from "./StartButton";
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-const fileSave = window.electron.fileSave;
 
 export function Form(props: {
     sentences: { [key: string]: string },

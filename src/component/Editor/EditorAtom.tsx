@@ -1,9 +1,7 @@
 import { atom, selector } from 'recoil'
 import { parse } from 'yaml';
+import { fileOpen } from '@/code/file';
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-const fileOpen = window.electron.fileOpen;
 
 export const logMapAtom = atom<LogMap>({
     key: 'Editor/LogMap',

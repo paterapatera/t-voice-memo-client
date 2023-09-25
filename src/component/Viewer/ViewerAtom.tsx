@@ -1,9 +1,6 @@
 import { atom, selector } from 'recoil'
 import { parse } from 'yaml';
-
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-const fileOpen = window.electron.fileOpen;
+import { fileOpen } from '@/code/file';
 
 export const memoMapAtom = atom<MemoMap>({
     key: 'Viewer/MemoMap',
