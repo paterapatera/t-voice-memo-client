@@ -1,6 +1,6 @@
 import { space } from '@/code/theme';
 import Stack from '@mui/material/Stack';
-import { Sentence } from "./MarkdownScreen/Sentence";
+import { Sentence } from "./Sentence";
 
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { windowSizeAtom } from '@/AppAtom';

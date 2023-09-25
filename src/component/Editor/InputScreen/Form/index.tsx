@@ -2,11 +2,10 @@ import { Dispatch, SetStateAction } from 'react';
 import { stringify } from 'yaml';
 import Stack from '@mui/material/Stack';
 import { useForm } from 'react-hook-form';
-import { EndButton } from "./Form/EndButton";
-import { InputField } from "./Form/InputField";
-import { TimeField } from "./Form/TimeField";
-import { StartButton } from "./Form/StartButton";
-import { LogType } from '../../Editor';
+import { EndButton } from "./EndButton";
+import { InputField } from "./InputField";
+import { TimeField } from "./TimeField";
+import { StartButton } from "./StartButton";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -14,7 +13,6 @@ const fileSave = window.electron.fileSave;
 
 export function Form(props: {
     sentences: { [key: string]: string },
-    logs: LogType,
     setSentences: Dispatch<SetStateAction<{ [key: string]: string }>>
 }) {
     const {
@@ -34,7 +32,7 @@ export function Form(props: {
         <TimeField {...{ register: register('time') }} />
         <InputField {...{ register: register('sentence') }} />
         <Stack direction="row" alignItems="center" spacing={2}>
-            <StartButton {...{ setTime: (v: string) => setValue('time', v), logs: props.logs }} />
+            <StartButton {...{ setTime: (v: string) => setValue('time', v) }} />
             <EndButton time={watch('time')} />
         </Stack>
     </Stack></form>

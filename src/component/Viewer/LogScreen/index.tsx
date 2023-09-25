@@ -1,8 +1,8 @@
 import { useRef } from "react";
 import { Stack } from "@mui/material";
 import { space } from "@/code/theme";
-import { Message } from "./LogScreen/Message";
-import { Audio } from "./LogScreen/Audio";
+import { Message } from "./Message";
+import { Audio } from "./Audio";
 
 import { useRecoilValue } from "recoil";
 import { windowSizeAtom } from "@/AppAtom";

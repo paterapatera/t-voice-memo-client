@@ -1,10 +1,13 @@
-import { LogType } from "../Editor";
-import { Message } from "./LogScreen/Message";
+import { Message } from "./Message";
 import { Stack } from "@mui/material";
 
-export function LogScreen({ logs }: { logs: LogType }) {
+import { useRecoilValue } from "recoil";
+import { logMapAtom } from "../EditorAtom";
+
+export function LogScreen() {
+    const logMap = useRecoilValue(logMapAtom)
     return <Stack spacing={2}>
-        {[...Object.entries(logs)]
+        {[...Object.entries(logMap)]
             .filter(([, { type }]) => type === 'message')
             .sort(([i1], [i2]) => Number(i2) - Number(i1))
             .map(([i, { text }]) => {

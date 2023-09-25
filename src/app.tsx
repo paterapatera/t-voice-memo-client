@@ -5,10 +5,11 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import { RecoilRoot } from "recoil";
-import { Editor } from './feature/editor/component/Editor';
+import { Editor } from './component/Editor';
 import { createTheme } from '@mui/material';
 import { ThemeProvider } from '@emotion/react';
-import { Viewer } from './feature/viewer/Viewer';
+import { Viewer } from './component/Viewer';
+import { Suspense } from 'react';
 
 const router = createMemoryRouter([
   {
@@ -40,7 +41,9 @@ createRoot(document.getElementById('root')).render(<>
   <ThemeProvider theme={theme}>
     <CssBaseline />
     <RecoilRoot>
-      <RouterProvider router={router} />
+      <Suspense fallback={<div>Loading...</div>}>
+        <RouterProvider router={router} />
+      </Suspense>
     </RecoilRoot>
   </ThemeProvider >
 </>);
